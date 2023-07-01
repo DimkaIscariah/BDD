@@ -1,5 +1,6 @@
 package ru.netology.page;
 
+
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
@@ -23,16 +24,16 @@ public class TransferPage {
         heading.shouldBe(visible);
     }
 
-    public DashboardPage setRefill(int amount, DataHelper.CardDetails card) {
+    public DashboardPage setRefill(int amount, DataHelper.CardInfo card) {
         refill(amount, card);
         return new DashboardPage();
     }
 
-    public void refill(int amount, DataHelper.CardDetails card) {
+    public void refill(int amount, DataHelper.CardInfo card) {
         amountInput.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         amountInput.setValue(String.valueOf(amount));
         fromCard.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
-        fromCard.setValue(card.getNumber());
+        fromCard.setValue(card.getCardNumber());
         topUpButton.click();
     }
 
