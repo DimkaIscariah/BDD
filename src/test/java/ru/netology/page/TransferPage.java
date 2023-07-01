@@ -2,39 +2,45 @@ package ru.netology.page;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.Keys;
 import ru.netology.data.DataHelper;
+
 import java.time.Duration;
-import static com.codeborne.selenide.Condition.*;
+
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
-import static java.time.Duration.ofSeconds;
 
 public class TransferPage {
-    private SelenideElement addReplenishmentSection = $(withText("Пополнение карты"));
-    private SelenideElement amount = $("[data-test-id='amount'] input");
-    private SelenideElement transferButton = $("[data-test-id='action-transfer']");
-    private SelenideElement from = $("[data-test-id='from'] input");
-    private SelenideElement actionError = $("[data-test-id='error-notification']");
+    private SelenideElement heading = $(withText("Пополнение карты"));
+    private SelenideElement amountInput = $("[data-test-id='amount'] input");
+    public SelenideElement fromCard = $("[data-test-id=from] input");
+    public SelenideElement topUpButton = $("[data-test-id=action-transfer]");
+    private SelenideElement cancelButton = $("[data-test-id='action-cancel']");
+    private SelenideElement errorNotification = $("[data-test-id='error-notification']");
 
     public TransferPage() {
-        addReplenishmentSection.shouldBe(visible, ofSeconds(15));
+        heading.shouldBe(visible);
     }
 
-    public DashboardPage madeTransfer(int amountForTransfer, DataHelper.CardDetails cardDetails) {
-        amount.setValue(String.valueOf(amountForTransfer));
-        from.setValue(cardDetails.getNumber());
-        transferButton.click();
+    public DashboardPage setRefill(int amount, DataHelper.CardDetails card) {
+        refill(amount, card);
         return new DashboardPage();
     }
 
-    public DashboardPage validTransfer(String amountTransfer, DataHelper.CardDetails cardInfo) {
-        amount.setValue(amountTransfer);
-        from.setValue(cardInfo.getNumber());
-        transferButton.click();
-        return new DashboardPage();
+    public void refill(int amount, DataHelper.CardDetails card) {
+        amountInput.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        amountInput.setValue(String.valueOf(amount));
+        fromCard.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        fromCard.setValue(card.getNumber());
+        topUpButton.click();
     }
 
-    public void findErrorMessage(String expectedText) {
-        actionError.shouldHave(exactText(expectedText), Duration.ofSeconds(15)).shouldBe(visible);
+    public void setErrorNotification(String textError) {
+        errorNotification.shouldBe(Condition.visible).shouldHave(Condition.text("Ошибка"), Duration.ofSeconds(15));
+    }
+
+    public void setCancelButton() {
+        cancelButton.click();
     }
 }
