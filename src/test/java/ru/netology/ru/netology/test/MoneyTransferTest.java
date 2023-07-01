@@ -3,8 +3,8 @@ package ru.netology.ru.netology.test;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
-import ru.netology.data.DashboardPage;
-import ru.netology.data.LoginPageV2;
+import ru.netology.page.DashboardPage;
+import ru.netology.page.LoginPageV2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.codeborne.selenide.Selenide.open;
