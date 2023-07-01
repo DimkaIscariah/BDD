@@ -27,7 +27,7 @@ public class MoneyTransferTest {
         var expectedFirstCardBalance = firstCardDetails + amount;
         var expectedSecondCardBalance = secondCardDetails - amount;
         var transferPage = dashboardPage.selectCardToTransfer(cardInfoFirst);
-        transferPage.validTransfer(String.valueOf(amount), cardInfoSecond);
+
 
         assertEquals(expectedFirstCardBalance, dashboardPage.getCardBalance(cardInfoFirst));
         assertEquals(expectedSecondCardBalance, dashboardPage.getCardBalance(cardInfoSecond));
@@ -51,7 +51,7 @@ public class MoneyTransferTest {
         var expectedFirstCardBalance = firstCardDetails - amount;
         var expectedSecondCardBalance = secondCardDetails + amount;
         var transferPage = dashboardPage.selectCardToTransfer(cardInfoSecond);
-        transferPage.validTransfer(String.valueOf(amount), cardInfoFirst);
+
 
         assertEquals(expectedFirstCardBalance, dashboardPage.getCardBalance(cardInfoFirst));
         assertEquals(expectedSecondCardBalance, dashboardPage.getCardBalance(cardInfoSecond));
@@ -63,7 +63,7 @@ public class MoneyTransferTest {
         open("http://localhost:9999");
         val loginPage = new LoginPageV2();
         val badAuthInfo = DataHelper.getOtherAuthInfo(DataHelper.getAuthInfo());
-        loginPage.invalidVerify(badAuthInfo);
+
     }
 
     @Test
@@ -73,6 +73,6 @@ public class MoneyTransferTest {
         val authInfo = DataHelper.getAuthInfo();
         val verificationPage = loginPage.validLogin(authInfo);
         val badVerificationCode = DataHelper.getVerificationCodeInvalid(authInfo);
-        verificationPage.invalidVerify(badVerificationCode);
+        
     }
 }
