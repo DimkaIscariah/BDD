@@ -2,6 +2,7 @@ package ru.netology.data;
 
 import lombok.Value;
 
+import java.math.MathContext;
 import java.util.Random;
 
 public class DataHelper {
@@ -10,8 +11,8 @@ public class DataHelper {
 
     @Value
     public static class AuthInfo {
-        String login;
-        String password;
+        private String login;
+        private String password;
     }
 
     public static AuthInfo getAuthInfo() {
@@ -19,8 +20,9 @@ public class DataHelper {
     }
 
     @Value
+
     public static class VerificationCode {
-        String code;
+        private String code;
     }
 
     public static VerificationCode getVerificationCodeFor(AuthInfo authInfo) {
@@ -29,16 +31,25 @@ public class DataHelper {
 
     @Value
     public static class CardInfo {
-        String cardNumber;
-        String testId;
+        private String cardNumber;
+        private String id;
     }
-
-    public static CardInfo getOneCardNumber() {
+    public static CardInfo getfirstCardInfo() {
         return new CardInfo("5559 0000 0000 0001", "92df3f1c-a033-48e6-8390-206f6b1f56c0");
     }
 
-    public static CardInfo getTwoCardNumber() {
+    public static CardInfo getsecondCardInfo() {
         return new CardInfo("5559 0000 0000 0002", "0f3f5c2a-249e-4c3d-8287-09f7a039391d");
     }
 
+    public static int generateValidAmount (int balance) {
+        return (int) Math.abs(balance * 0.1);
+    }
+
+    public static int generateInvalidAmount (int balance) {
+        return Math.abs(balance) + new Random().nextInt(10000);
+    }
+
 }
+
+

@@ -1,13 +1,10 @@
 package ru.netology.page;
 
-
-
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import lombok.val;
 import ru.netology.data.DataHelper;
-
-import java.util.SortedSet;
+import lombok.val;
 
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.visible;
@@ -16,12 +13,20 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
     private SelenideElement heading = $("[data-test-id=dashboard]");
+    private ElementsCollection card = $$(".list__item");
+    private SelenideElement cardButton = $("[data-test-id=action-deposit]");
+    private SelenideElement reloadButton = $("[data-test-id=action-reload]");
     private ElementsCollection cards = $$(".list__item div");
-    private final String balanceStart = "баланс: ";
-    private final String balanceFinish = " р.";
+    private String balanceStart = "баланс: ";
+    private String balanceFinish = " р.";
 
     public DashboardPage() {
         heading.shouldBe(visible);
+    }
+
+    public int getCardBalance(DataHelper.CardInfo cardInfo) {
+        var text = cards.findBy(Condition.text(cardInfo.getCardNumber().substring(15))).getText();
+        return extractBalance(text);
     }
 
     private int extractBalance(String text) {
@@ -31,13 +36,13 @@ public class DashboardPage {
         return Integer.parseInt(value);
     }
 
-    public int getCardBalance(int index) {
-        val text = cards.get(index).text();
-        return extractBalance(text);
-    }
-
-    public TransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
-        cards.findBy(attribute("data-test-id",cardInfo.getTestId())).$("button").click();
+    public TransferPage selectCardInfoToTransfer(DataHelper.CardInfo cardInfo) {
+        cards.findBy(attribute("data-test-id", cardInfo.getId())).$("button").click();
         return new TransferPage();
     }
 }
+
+
+
+
+
